@@ -26,7 +26,7 @@ public class LicenseController {
         license.add(linkTo(methodOn(LicenseController.class)
                         .getLicense(organizationId, license.getLicenseId()))
                         .withSelfRel(), linkTo(methodOn(LicenseController.class)
-                        .createLicense(organizationId, license, null))
+                        .createLicense(license, null))
                         .withRel("createLicense"), linkTo(methodOn(LicenseController.class)
                         .updateLicense(organizationId, license, null))
                         .withRel("updateLicense"), linkTo(methodOn(LicenseController.class)
@@ -37,20 +37,20 @@ public class LicenseController {
     }
 
     @PutMapping()
-    public ResponseEntity<String> updateLicense(
+    public ResponseEntity<License> updateLicense(
             @PathVariable("organizationId") String organizationId,
             @RequestBody License request,
             @RequestHeader(value = "Accept-Language", required = false) Locale locale){
-        return ResponseEntity.ok(licenseService.updateLicense(request, organizationId, locale));
+        return ResponseEntity.ok(licenseService.updateLicense(request));
     }
 
     @PostMapping()
-    public ResponseEntity<String> createLicense(
-            @PathVariable("organizationId") String organizationId,
+    public ResponseEntity<License> createLicense(
             @RequestBody License request,
             @RequestHeader(value = "Accept-Language", required = false)
                     Locale locale){
-        return ResponseEntity.ok(licenseService.createLicense(request, organizationId, locale));
+
+        return ResponseEntity.ok(licenseService.createLicense(request));
     }
 
     @DeleteMapping(value="/{licenseId}")
